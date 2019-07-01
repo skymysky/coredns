@@ -15,6 +15,9 @@ func newElem(rr dns.RR) *Elem {
 	return &e
 }
 
+// helper function: DELETE
+func (e *Elem) M() map[uint16][]dns.RR { return e.m }
+
 // Types returns the RRs with type qtype from e. If qname is given (only the
 // first one is used), the RR are copied and the owner is replaced with qname[0].
 func (e *Elem) Types(qtype uint16, qname ...string) []dns.RR {

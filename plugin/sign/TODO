@@ -1,0 +1,4 @@
+* setup function
+* glue, delegation, nsec
+* go-routine, per zone to sign, stop and reload etc
+* more tests
