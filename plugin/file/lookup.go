@@ -164,7 +164,7 @@ func (z *Zone) Lookup(ctx context.Context, state request.Request, qname string) 
 			return z.additionalProcessing(ctx, state, elem, rrs)
 		}
 
-		rrs := elem.Types(qtype, qname)
+		rrs := elem.Types(qtype)
 
 		// NODATA
 		if len(rrs) == 0 {
@@ -196,11 +196,11 @@ func (z *Zone) Lookup(ctx context.Context, state request.Request, qname string) 
 	if wildElem != nil {
 		auth := z.ns(do)
 
-		if rrs := wildElem.Types(dns.TypeCNAME, qname); len(rrs) > 0 {
+		if rrs := wildElem.TypesForWildcard(dns.TypeCNAME, qname); len(rrs) > 0 {
 			return z.additionalProcessing(ctx, state, wildElem, rrs)
 		}
 
-		rrs := wildElem.Types(qtype, qname)
+		rrs := wildElem.TypesForWildcard(qtype, qname)
 
 		// NODATA response.
 		if len(rrs) == 0 {
@@ -219,7 +219,7 @@ func (z *Zone) Lookup(ctx context.Context, state request.Request, qname string) 
 				auth = append(auth, nsec...)
 			}
 
-			sigs := wildElem.Types(dns.TypeRRSIG, qname)
+			sigs := wildElem.TypesForWildcard(dns.TypeRRSIG, qname)
 			sigs = signatureForSubType(sigs, qtype)
 			rrs = append(rrs, sigs...)
 
