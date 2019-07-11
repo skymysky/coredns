@@ -11,6 +11,7 @@ import (
 	"github.com/miekg/dns"
 )
 
+// Sign holds the data need to sign a zone file.
 type Sign struct {
 	keys   []Pair
 	origin string
@@ -41,6 +42,7 @@ func (s Sign) signFunc(e *tree.Elem) bool {
 	return false
 }
 
+// Sign signs a zone file according to the parameters in s.
 func (s Sign) Sign(origin string) error {
 	now := time.Now()
 

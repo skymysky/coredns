@@ -12,6 +12,7 @@ import (
 	"golang.org/x/crypto/ed25519"
 )
 
+// Pair holds DNSSEC key information, botht the public and private components are stored here.
 type Pair struct {
 	Public  *dns.DNSKEY
 	Tag     uint16
