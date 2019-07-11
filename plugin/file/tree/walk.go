@@ -2,7 +2,7 @@ package tree
 
 import "github.com/miekg/dns"
 
-// Walk performs fn on all values stored in the tree. If a non-nill error is returned the
+// Walk performs fn on all values stored in the tree. If a non-nil error is returned the
 // Walk was interrupted by an fn returning that error. If fn alters stored values' sort
 // relationships, future tree operation behaviors are undefined.
 func (t *Tree) Walk(fn func(e *Elem, rrs map[uint16][]dns.RR) error) error {
