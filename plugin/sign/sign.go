@@ -61,7 +61,9 @@ func (s Sign) Sign(origin string) error {
 
 	s.ttl = z.Apex.SOA.Header().Ttl
 	z.Apex.SOA.Serial = uint32(time.Now().Unix())
+	nsec := apexNSEC(origin, s.ttl, z)
 
+	z.Insert(nsec)
 	for _, pair := range s.keys {
 		z.Insert(pair.Public.ToDS(dns.SHA1))
 		z.Insert(pair.Public.ToDS(dns.SHA256))
@@ -74,6 +76,11 @@ func (s Sign) Sign(origin string) error {
 		}
 		z.Insert(rrsig)
 		rrsig, err = pair.signRRs(z.Apex.NS, s.origin, s.ttl, s.inception, s.expiration)
+		if err != nil {
+			return err
+		}
+		z.Insert(rrsig)
+		rrsig, err = pair.signRRs([]dns.RR{nsec}, s.origin, s.ttl, s.inception, s.expiration)
 		if err != nil {
 			return err
 		}

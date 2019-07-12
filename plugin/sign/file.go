@@ -44,7 +44,7 @@ func (s Sign) write(z *file.Zone) error {
 // parse parses the zone in filename and returns a new Zone or an error. This
 // is similar to the Parse function in the *file* plugin. However when parsing the
 // record type RRSIG, DNSKEY, CDNSKEY and CDS are *not* included in the
-// returned zone.
+// returned zone (if encountered).
 func parse(f io.Reader, origin, fileName string) (*file.Zone, error) {
 	zp := dns.NewZoneParser(f, dns.Fqdn(origin), fileName)
 	zp.SetIncludeAllowed(true)
