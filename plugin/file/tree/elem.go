@@ -56,9 +56,7 @@ func (e *Elem) Name() string {
 }
 
 // Empty returns true is e does not contain any RRs, i.e. is an empty-non-terminal.
-func (e *Elem) Empty() bool {
-	return len(e.m) == 0
-}
+func (e *Elem) Empty() bool { return len(e.m) == 0 }
 
 // Insert inserts rr into e. If rr is equal to existing RRs, the RR will be added anyway.
 func (e *Elem) Insert(rr dns.RR) {
@@ -78,7 +76,7 @@ func (e *Elem) Insert(rr dns.RR) {
 	e.m[t] = rrs
 }
 
-// Delete removes all RRs of type rr.Header().Rrtype from e. When e is empty after the removal the returned bool is true.
+// Delete removes all RRs of type rr.Header().Rrtype from e.
 func (e *Elem) Delete(rr dns.RR) {
 	if e.m == nil {
 		return

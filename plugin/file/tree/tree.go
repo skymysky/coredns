@@ -275,7 +275,8 @@ func (n *Node) deleteMax() (root *Node, d int) {
 	return
 }
 
-// Delete removes all RRs of type rr.Header().Rrtype from e. When e is empty after the removal the returned bool is true.
+// Delete removes all RRs of type rr.Header().Rrtype from e. If after the deletion of rr the node is empty the
+// entire node is deleted.
 func (t *Tree) Delete(rr dns.RR) {
 	if t.Root == nil {
 		return
@@ -283,11 +284,12 @@ func (t *Tree) Delete(rr dns.RR) {
 
 	el, _ := t.Search(rr.Header().Name)
 	if el == nil {
-		t.deleteNode(rr)
 		return
 	}
 	el.Delete(rr)
-	t.deleteNode(rr)
+	if el.Empty() {
+		t.deleteNode(rr)
+	}
 	return
 }
 
